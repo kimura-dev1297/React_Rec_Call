@@ -10,3 +10,5 @@ export default class RecipeDetails extends Component {
     )
   }
 }
+
+// API KEY Food2Fork - f42946af5e7d8514c9c65074da2c433d
