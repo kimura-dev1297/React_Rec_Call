@@ -11,7 +11,7 @@ class App extends Component {
   state = {
     recipes: recipes, // is a temp API call, API limits to 50 an hour
     url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d",
-    details_id: 35384
+    details_id: 35373
   };
 
 
