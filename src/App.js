@@ -11,36 +11,50 @@ class App extends Component {
   state = {
     recipes: recipes, // is a temp API call, API limits to 50 an hour
     url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d",
-    details_id: 35373
+    details_id: 35373,
+    pageIndex: 1
   };
 
 
   // Will Not be making actual API calls while in develoopment. Will be using the /tempList instead
 
-  // async getRecipes(){
-  //   try {
-  //     const data = await fetch(this.state.url);
-  //     const jsonData = await data.json();
+  async getRecipes(){
+    try {
+      const data = await fetch(this.state.url);
+      const jsonData = await data.json();
       
-  //     this.setState({
-  //       recipes: jsonData.recipes
-  //     })
-  //   } catch(error){
-  //     console.log(error);
-  //   }
-  // }
+      this.setState({
+        recipes: jsonData.recipes
+      })
+    } catch(error){
+      console.log(error);
+    }
+  }
 
-  // componentDidMount(){
-  //   this.getRecipes();
-  // }
+  componentDidMount(){
+    this.getRecipes();
+  }
 
-  
+  displayPage = (index) => {
+    switch(index){
+      default:
+      case 1:
+        return(
+          <RecipeList recipes={this.state.recipes} />
+        )
+      case 0:
+        return (
+          <RecipeDetails id={this.state.details_id}/>
+        )
+    }
+  }
+
   render(){
     // console.log(this.state.recipes);
     return (
       <React.Fragment>
-          {/* <RecipeList recipes={this.state.recipes} /> */}
-          <RecipeDetails id={this.state.details_id}/>
+        {/* Every time the app is rendered we want to run this function */}
+        {this.displayPage(this.state.pageIndex)}
       </React.Fragment>
     );
   }
