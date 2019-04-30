@@ -4,11 +4,14 @@ import { recipes } from './tempList';
 import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 
+// API KEY Food2Fork - f42946af5e7d8514c9c65074da2c433d
+
 // Main state is going to be in App and past down to RecipeList
 class App extends Component {
   state = {
     recipes: recipes, // is a temp API call, API limits to 50 an hour
-    url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d&q=chicken%20breast&page=2"
+    url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d",
+    details_id: 35384
   };
 
 
@@ -36,8 +39,8 @@ class App extends Component {
     // console.log(this.state.recipes);
     return (
       <React.Fragment>
-          <RecipeList recipes={this.state.recipes} />
-          <RecipeDetails />
+          {/* <RecipeList recipes={this.state.recipes} /> */}
+          <RecipeDetails id={this.state.details_id}/>
       </React.Fragment>
     );
   }
