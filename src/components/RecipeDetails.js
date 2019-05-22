@@ -4,9 +4,9 @@ import { recipe } from '../tempDetails';
 export default class RecipeDetails extends Component {
   /* Must create a constructor func so I can access the deatils_id I passd down through APP component = this.props.id. This sets it up so that I can use props dynamically */
 
-  /*-----------------------------------------------------------------*/
+  /*-------------------------------------------*/
   //   Version 1 - Using constructor(){}
-  /*----------------------------------------------------------------- */
+  /*-------------------------------------------*/
   // constructor(props){
   //   super(props);
 
@@ -44,7 +44,7 @@ export default class RecipeDetails extends Component {
       const data = await fetch(url);
       const jsonData = await data.json();  
       // this.setState is asynchronous and it accepts a callback func
-      this.setState((state, props)=>{
+      this.setState((state, props) => {
         return { recipe: jsonData.recipe }
         }, 
         () => {}
@@ -65,7 +65,8 @@ export default class RecipeDetails extends Component {
       ingredients
     } = this.state.recipe;
 
-    
+    const { handleIndex } = this.props;
+
     return (
       <React.Fragment>
         {/* Two column layout */}
@@ -73,7 +74,13 @@ export default class RecipeDetails extends Component {
           <div className="row">
           {/* First Column - Button and Image Section */}
             <div className="col-10 mx-auto col-md-6 my-3">
-              <button type="button" className="btn btn-warning mb-5 text-capitalize">back to recipe list</button>
+              <button 
+                type="button" 
+                className="btn btn-warning mb-5 text-capitalize"
+                onClick={() => handleIndex(1)}
+                >
+                back to recipe list
+                </button>
               <img src={image_url} className="d-block w-100" alt="recipe"></img>
             </div>
             {/* Second Column - Details Section */}

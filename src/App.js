@@ -31,23 +31,37 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){
-    this.getRecipes();
-  }
+  // componentDidMount(){
+  //   this.getRecipes();
+  // }
 
   displayPage = (index) => {
     switch(index){
       default:
       case 1:
         return(
-          <RecipeList recipes={this.state.recipes} />
+          <RecipeList recipes={this.state.recipes} 
+              handleDetails={this.handleDetails}/>
         )
       case 0:
         return (
-          <RecipeDetails id={this.state.details_id}/>
+          <RecipeDetails id={this.state.details_id} handleIndex={this.handleIndex}/>
         )
     }
-  }
+  };
+
+  handleIndex = (index) => {
+    this.setState({
+      pageIndex: index
+    });
+  };
+
+  handleDetails = (index, id) => {
+    this.setState({
+      pageIndex: index,
+      details_id: id
+    });
+  };
 
   render(){
     // console.log(this.state.recipes);
@@ -55,6 +69,7 @@ class App extends Component {
       <React.Fragment>
         {/* Every time the app is rendered we want to run this function */}
         {this.displayPage(this.state.pageIndex)}
+
       </React.Fragment>
     );
   }
