@@ -4,11 +4,22 @@ import RecipeSearch from './RecipeSearch';
 
 export default class RecipeList extends Component {
   render() {
-    const {recipes, handleDetails} = this.props;
+    const {
+      recipes, 
+      value,
+      handleDetails,
+      handleSubmit,
+      handleChange,
+      error
+    } = this.props;
 
     return (
       <React.Fragment>
-        <RecipeSearch />
+        <RecipeSearch 
+          value={value} 
+          handleChange={handleChange} 
+          handleSubmit={handleSubmit}
+        />
         <div className="container my-5">
         {/* For Nested Elements in Bootstrap I'll Use Nested Rows */}
         {/*  Title */}
@@ -19,8 +30,7 @@ export default class RecipeList extends Component {
           </div>
           {/* End of Title */}
           <div className="row">
-            {
-              recipes.map( recipe => {
+            {error ? <h1 className="text-danger text-center">{error}</h1> : recipes.map( recipe => {
                 return(
                   // recipes being passed now down through <Recipe/> as "recipe". <Recipe /> is where we will display each recipe
                   <Recipe 
@@ -29,8 +39,7 @@ export default class RecipeList extends Component {
                     handleDetails={() => handleDetails(0, recipe.recipe_id)}
                   />
                 ) 
-              })
-            }
+              })}
           </div>
         </div>
       </React.Fragment>

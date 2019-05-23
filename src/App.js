@@ -11,8 +11,12 @@ class App extends Component {
   state = {
     recipes: recipes, // is a temp API call, API limits to 50 an hour
     url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d",
+    base_url: "https://www.food2fork.com/api/search?key=f42946af5e7d8514c9c65074da2c433d",
     details_id: 35373,
-    pageIndex: 1
+    pageIndex: 1,
+    search: '',
+    query: '&q=',
+    error: ''
   };
 
 
@@ -22,26 +26,38 @@ class App extends Component {
     try {
       const data = await fetch(this.state.url);
       const jsonData = await data.json();
-      
-      this.setState({
-        recipes: jsonData.recipes
-      })
+
+      if(jsonData.recipes.length === 0){
+        this.setState(() => {
+          return {error: "Sorry, but your search did Not return any results"}
+        });
+      } else {
+        this.setState(() => {
+          return { recipes: jsonData.recipes}
+        });
+      }
     } catch(error){
       console.log(error);
     }
   }
 
-  // componentDidMount(){
-  //   this.getRecipes();
-  // }
+  componentDidMount(){
+    this.getRecipes();
+  }
 
   displayPage = (index) => {
     switch(index){
       default:
       case 1:
         return(
-          <RecipeList recipes={this.state.recipes} 
-              handleDetails={this.handleDetails}/>
+          <RecipeList 
+            recipes={this.state.recipes} 
+            value={this.state.search}
+            handleDetails={this.handleDetails}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            error={this.state.error}
+            />
         )
       case 0:
         return (
@@ -62,6 +78,26 @@ class App extends Component {
       details_id: id
     });
   };
+
+  handleChange = (e) => {
+    this.setState({
+      search: e.target.value
+    }, () => {
+      console.log(this.state.search)
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { base_url, query, search } = this.state;
+
+    this.setState(() => {
+      return {url: `${base_url}${query}${search}`, search: ""}
+    }, () => {
+      this.getRecipes();
+    })
+    
+  }
 
   render(){
     // console.log(this.state.recipes);
